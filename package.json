@@ -13,6 +13,7 @@
 		"src"
 	],
 	"type": "module",
+	"main": "dist/cjs/PaapiItemImageUrlParser.js",
 	"module": "dist/PaapiItemImageUrlParser.js",
 	"types": "dist/PaapiItemImageUrlParser.d.ts",
 	"repository": {
@@ -21,10 +22,10 @@
 	},
 	"scripts": {
 		"_build:tsc": "tsc -w",
-		"_build:compress": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.js -- brotlin compress dist/PaapiItemImageUrlParser.js -m 1",
-		"_build:minify": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.js -- terser dist/PaapiItemImageUrlParser.js -o dist/PaapiItemImageUrlParser.min.js -c ecma=2020 --mangle --ecma 2020 --module --source-map content='dist/PaapiItemImageUrlParser.js.map',filename='PaapiItemImageUrlParser.js',includeSources,url='PaapiItemImageUrlParser.min.js.map'",
-		"_build:minify-compress": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.min.js -- brotlin compress dist/PaapiItemImageUrlParser.min.js -m 1",
-		"_build:minify-declaration": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.d.ts -- cpy dist/PaapiItemImageUrlParser.d.ts dist --rename=PaapiItemImageUrlParser.min.d.ts",
+		"_build:compress": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.js -- brotlin compress {{file}} -m 1",
+		"_build:minify": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.js -- terser {{file}} -o {{fileDir}}/{{fileBaseNoExt}}.min.js -c ecma=2020 --mangle --ecma 2020 --module --source-map content='{{fileDir}}/{{fileBaseNoExt}}.js.map',filename='{{fileBaseNoExt}}.js',includeSources,url='{{fileBaseNoExt}}.min.js.map'",
+		"_build:minify-compress": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.min.js -- brotlin compress {{file}} -m 1",
+		"_build:minify-declaration": "onchange -f add -f change -v dist/PaapiItemImageUrlParser.d.ts -- cpy {{file}} dist --rename=PaapiItemImageUrlParser.min.d.ts",
 		"build": "run-p _build:*",
 		"test": "jest --coverage"
 	},
