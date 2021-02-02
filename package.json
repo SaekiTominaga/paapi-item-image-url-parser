@@ -13,7 +13,7 @@
 		"src"
 	],
 	"type": "module",
-	"main": "dist/cjs/PaapiItemImageUrlParser.js",
+	"main": "dist/PaapiItemImageUrlParser.js",
 	"module": "dist/PaapiItemImageUrlParser.js",
 	"types": "dist/PaapiItemImageUrlParser.d.ts",
 	"repository": {
