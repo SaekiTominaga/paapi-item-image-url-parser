@@ -5,7 +5,7 @@
 ## Examples
 
 ```JavaScript
-import PaapiItemImageUrlParser from '@saekitominaga/PaapiItemImageUrlParser.js';
+import PaapiItemImageUrlParser from '@saekitominaga/paapi-item-image-url-parser';
 
 const imageUrl = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 const paapiItemImageUrlParser = new PaapiItemImageUrlParser(imageUrl);
