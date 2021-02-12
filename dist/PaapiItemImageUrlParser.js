@@ -26,14 +26,14 @@ export default class {
         _fileWidth.set(this, void 0);
         _fileExtension.set(this, void 0);
         __classPrivateFieldSet(this, _url, inputUrl);
-        const result = /(\/images\/[A-Z])\/([a-zA-Z0-9\-_+%]+)\._SL([0-9]+)_(\.[a-zA-Z0-9]+)$/.exec(inputUrl.pathname);
+        const result = /(\/images\/[A-Z])\/([a-zA-Z0-9\-_+%]+)(\._SL([0-9]+)_)?(\.[a-zA-Z0-9]+)$/.exec(inputUrl.pathname);
         if (result === null) {
             throw new Error('The format of the URL does not seem to be that of an Amazon product image.');
         }
         __classPrivateFieldSet(this, _dir, result[1]);
         __classPrivateFieldSet(this, _fileId, result[2]);
-        __classPrivateFieldSet(this, _fileWidth, Number(result[3]));
-        __classPrivateFieldSet(this, _fileExtension, result[4]);
+        __classPrivateFieldSet(this, _fileWidth, result[4] !== undefined ? Number(result[4]) : null);
+        __classPrivateFieldSet(this, _fileExtension, result[5]);
     }
     /**
      * Get the entire Image URL string.
@@ -41,11 +41,13 @@ export default class {
      * @returns {string} Image URL
      */
     toString() {
-        this._assemblePath();
+        if (__classPrivateFieldGet(this, _fileWidth) === null) {
+            __classPrivateFieldGet(this, _url).pathname = `${__classPrivateFieldGet(this, _dir)}/${__classPrivateFieldGet(this, _fileId)}${__classPrivateFieldGet(this, _fileExtension)}`;
+        }
+        else {
+            __classPrivateFieldGet(this, _url).pathname = `${__classPrivateFieldGet(this, _dir)}/${__classPrivateFieldGet(this, _fileId)}._SL${__classPrivateFieldGet(this, _fileWidth)}_${__classPrivateFieldGet(this, _fileExtension)}`;
+        }
         return __classPrivateFieldGet(this, _url).toString();
-    }
-    _assemblePath() {
-        __classPrivateFieldGet(this, _url).pathname = `${__classPrivateFieldGet(this, _dir)}/${__classPrivateFieldGet(this, _fileId)}._SL${__classPrivateFieldGet(this, _fileWidth)}_${__classPrivateFieldGet(this, _fileExtension)}`;
     }
     /**
      * Get the ID part of URL
@@ -58,7 +60,7 @@ export default class {
     /**
      * Get the width part of URL
      *
-     * @returns {number} Image width (e.g. 160)
+     * @returns {number|null} Image width (e.g. 160)
      */
     getWidth() {
         return __classPrivateFieldGet(this, _fileWidth);
@@ -66,7 +68,7 @@ export default class {
     /**
      * Set the image width (Used to get images of different sizes)
      *
-     * @param {number} width - Image width (e.g. 320)
+     * @param {number} width - Image width (e.g. 160)
      */
     setWidth(width) {
         if (!Number.isInteger(width)) {
@@ -84,7 +86,10 @@ export default class {
      */
     setWidthMultiply(multiply) {
         if (multiply <= 0) {
-            throw new RangeError('The value to be multiplied must be greater than zero.');
+            throw new RangeError('The value to be multiply must be greater than zero.');
+        }
+        if (__classPrivateFieldGet(this, _fileWidth) === null) {
+            throw new Error('It is not possible to multiply the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
         }
         const width = Math.round(__classPrivateFieldGet(this, _fileWidth) * multiply);
         __classPrivateFieldSet(this, _fileWidth, width < 1 ? 1 : width);
@@ -96,7 +101,10 @@ export default class {
      */
     setWidthDivision(division) {
         if (division <= 0) {
-            throw new RangeError('The value to be divided must be greater than zero.');
+            throw new RangeError('The value to be division must be greater than zero.');
+        }
+        if (__classPrivateFieldGet(this, _fileWidth) === null) {
+            throw new Error('It is not possible to division the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
         }
         const width = Math.round(__classPrivateFieldGet(this, _fileWidth) / division);
         __classPrivateFieldSet(this, _fileWidth, width < 1 ? 1 : width);

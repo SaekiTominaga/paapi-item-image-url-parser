@@ -7,22 +7,44 @@
 ```JavaScript
 import PaapiItemImageUrlParser from '@saekitominaga/paapi-item-image-url-parser';
 
-const imageUrl = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
-const paapiItemImageUrlParser = new PaapiItemImageUrlParser(imageUrl);
+const image160Url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
+const paapiItemImageUrlParser1 = new PaapiItemImageUrlParser(image160Url);
 
-paapiItemImageUrlParser.getId(); // '5198TOs+rnL'
-paapiItemImageUrlParser.getWidth(); // 160
-paapiItemImageUrlParser.getExtension(); // '.jpg'
-paapiItemImageUrlParser.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg'
+paapiItemImageUrlParser1.getId(); // '5198TOs+rnL'
+paapiItemImageUrlParser1.getWidth(); // 160
+paapiItemImageUrlParser1.getExtension(); // '.jpg'
+paapiItemImageUrlParser1.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg'
 
-paapiItemImageUrlParser.setWidth(320);
-paapiItemImageUrlParser.getWidth(); // 320
+paapiItemImageUrlParser1.setWidthMultiply(2);
+paapiItemImageUrlParser1.getWidth(); // 320
 
-paapiItemImageUrlParser.setWidthMultiply(2);
-paapiItemImageUrlParser.getWidth(); // 640
+paapiItemImageUrlParser1.setWidthDivision(3);
+paapiItemImageUrlParser1.getWidth(); // 107
 
-paapiItemImageUrlParser.setWidthDivision(3);
-paapiItemImageUrlParser.getWidth(); // 213
+paapiItemImageUrlParser1.setWidth(320);
+paapiItemImageUrlParser1.getWidth(); // 320
+
+
+const imageOrigUrl = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
+const paapiItemImageUrlParser2 = new PaapiItemImageUrlParser(imageOrigUrl);
+
+paapiItemImageUrlParser2.getId(); // '5198TOs+rnL'
+paapiItemImageUrlParser2.getWidth(); // null
+paapiItemImageUrlParser2.getExtension(); // '.jpg'
+paapiItemImageUrlParser2.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL.jpg'
+
+try {
+  paapiItemImageUrlParser2.setWidthMultiply(2); // Error
+} catch {
+}
+
+try {
+  paapiItemImageUrlParser2.setWidthDivision(3); // Error
+} catch {
+}
+
+paapiItemImageUrlParser2.setWidth(320);
+paapiItemImageUrlParser2.getWidth(); // 320
 ```
 
 ## Constructor
@@ -45,7 +67,7 @@ new PaapiItemImageUrlParser(inputUrl: URL)
 <dd>Get the entire Image URL string.</dd>
 <dt>getId(): string</dt>
 <dd>Get the ID part of URL</dd>
-<dt>getWidth(): number</dt>
+<dt>getWidth(): number | null</dt>
 <dd>Get the width part of URL</dd>
 <dt>setWidth(width: number): void</dt>
 <dd>Set the image width (Used to get images of different sizes)</dd>

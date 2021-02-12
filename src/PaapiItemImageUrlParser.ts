@@ -8,7 +8,7 @@ export default class {
 
 	#dir: string;
 	#fileId: string;
-	#fileWidth: number;
+	#fileWidth: number | null;
 	#fileExtension: string;
 
 	/**
@@ -17,14 +17,14 @@ export default class {
 	constructor(inputUrl: URL) {
 		this.#url = inputUrl;
 
-		const result = /(\/images\/[A-Z])\/([a-zA-Z0-9\-_+%]+)\._SL([0-9]+)_(\.[a-zA-Z0-9]+)$/.exec(inputUrl.pathname);
+		const result = /(\/images\/[A-Z])\/([a-zA-Z0-9\-_+%]+)(\._SL([0-9]+)_)?(\.[a-zA-Z0-9]+)$/.exec(inputUrl.pathname);
 		if (result === null) {
 			throw new Error('The format of the URL does not seem to be that of an Amazon product image.');
 		}
 		this.#dir = result[1];
 		this.#fileId = result[2];
-		this.#fileWidth = Number(result[3]);
-		this.#fileExtension = result[4];
+		this.#fileWidth = result[4] !== undefined ? Number(result[4]) : null;
+		this.#fileExtension = result[5];
 	}
 
 	/**
@@ -33,13 +33,13 @@ export default class {
 	 * @returns {string} Image URL
 	 */
 	toString(): string {
-		this._assemblePath();
+		if (this.#fileWidth === null) {
+			this.#url.pathname = `${this.#dir}/${this.#fileId}${this.#fileExtension}`;
+		} else {
+			this.#url.pathname = `${this.#dir}/${this.#fileId}._SL${this.#fileWidth}_${this.#fileExtension}`;
+		}
 
 		return this.#url.toString();
-	}
-
-	private _assemblePath() {
-		this.#url.pathname = `${this.#dir}/${this.#fileId}._SL${this.#fileWidth}_${this.#fileExtension}`;
 	}
 
 	/**
@@ -54,16 +54,16 @@ export default class {
 	/**
 	 * Get the width part of URL
 	 *
-	 * @returns {number} Image width (e.g. 160)
+	 * @returns {number|null} Image width (e.g. 160)
 	 */
-	getWidth(): number {
+	getWidth(): number | null {
 		return this.#fileWidth;
 	}
 
 	/**
 	 * Set the image width (Used to get images of different sizes)
 	 *
-	 * @param {number} width - Image width (e.g. 320)
+	 * @param {number} width - Image width (e.g. 160)
 	 */
 	setWidth(width: number): void {
 		if (!Number.isInteger(width)) {
@@ -83,7 +83,10 @@ export default class {
 	 */
 	setWidthMultiply(multiply: number): void {
 		if (multiply <= 0) {
-			throw new RangeError('The value to be multiplied must be greater than zero.');
+			throw new RangeError('The value to be multiply must be greater than zero.');
+		}
+		if (this.#fileWidth === null) {
+			throw new Error('It is not possible to multiply the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
 		}
 
 		const width = Math.round(this.#fileWidth * multiply);
@@ -97,7 +100,10 @@ export default class {
 	 */
 	setWidthDivision(division: number): void {
 		if (division <= 0) {
-			throw new RangeError('The value to be divided must be greater than zero.');
+			throw new RangeError('The value to be division must be greater than zero.');
+		}
+		if (this.#fileWidth === null) {
+			throw new Error('It is not possible to division the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
 		}
 
 		const width = Math.round(this.#fileWidth / division);

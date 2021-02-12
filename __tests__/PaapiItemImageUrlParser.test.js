@@ -1,7 +1,55 @@
 import { URL } from 'url';
 import PaapiItemImageUrlParser from '../dist/PaapiItemImageUrlParser.js';
 
-describe('正常系', () => {
+describe('オリジナルサイズ', () => {
+	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
+	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
+
+	test('id', () => {
+		expect(paapiItemImageUrlParser.getId()).toBe('5198TOs+rnL');
+	});
+	test('width', () => {
+		expect(paapiItemImageUrlParser.getWidth()).toBeNull();
+	});
+	test('extension', () => {
+		expect(paapiItemImageUrlParser.getExtension()).toBe('.jpg');
+	});
+	test('URL', () => {
+		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
+	});
+});
+
+describe('オリジナルサイズ URL の幅を変更（直接指定）', () => {
+	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
+	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
+
+	paapiItemImageUrlParser.setWidth(500);
+
+	test('width', () => {
+		expect(paapiItemImageUrlParser.getWidth()).toBe(500);
+	});
+	test('URL', () => {
+		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL._SL500_.jpg');
+	});
+});
+
+describe('オリジナルサイズ URL の幅を変更（乗算指定）', () => {
+	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL_.jpg');
+	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
+
+	test('幅指定前に乗算', () => {
+		expect(() => {
+			paapiItemImageUrlParser.setWidthMultiply(2);
+		}).toThrow('It is not possible to multiply the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
+	});
+	test('幅指定前に除算', () => {
+		expect(() => {
+			paapiItemImageUrlParser.setWidthDivision(2);
+		}).toThrow('It is not possible to division the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
+	});
+});
+
+describe('幅指定 URL', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
@@ -19,7 +67,7 @@ describe('正常系', () => {
 	});
 });
 
-describe('幅を変更（直接指定）', () => {
+describe('幅指定 URL の幅を変更（直接指定）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
@@ -33,7 +81,7 @@ describe('幅を変更（直接指定）', () => {
 	});
 });
 
-describe('幅を変更（乗算指定）', () => {
+describe('幅指定 URL の幅を変更（乗算指定）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
@@ -47,7 +95,7 @@ describe('幅を変更（乗算指定）', () => {
 	});
 });
 
-describe('幅を変更（乗算指定・普通に計算すると 0 になってしまうケース）', () => {
+describe('幅指定 URL の幅を変更（乗算指定・普通に計算すると 0 になってしまうケース）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
@@ -61,7 +109,7 @@ describe('幅を変更（乗算指定・普通に計算すると 0 になって�
 	});
 });
 
-describe('幅を変更（除算指定）', () => {
+describe('幅指定 URL の幅を変更（除算指定）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
@@ -75,7 +123,7 @@ describe('幅を変更（除算指定）', () => {
 	});
 });
 
-describe('幅を変更（除算指定・普通に計算すると 0 になってしまうケース）', () => {
+describe('幅指定 URL の幅を変更（除算指定・普通に計算すると 0 になってしまうケース）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
@@ -132,7 +180,7 @@ describe('invalid', () => {
 			const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 			const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 			paapiItemImageUrlParser.setWidthMultiply(0);
-		}).toThrow('The value to be multiplied must be greater than zero.');
+		}).toThrow('The value to be multiply must be greater than zero.');
 	});
 
 	test('画像幅の除算で 0 を指定', () => {
@@ -140,6 +188,6 @@ describe('invalid', () => {
 			const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 			const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 			paapiItemImageUrlParser.setWidthDivision(0);
-		}).toThrow('The value to be divided must be greater than zero.');
+		}).toThrow('The value to be division must be greater than zero.');
 	});
 });

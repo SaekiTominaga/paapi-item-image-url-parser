@@ -15,7 +15,6 @@ export default class {
      * @returns {string} Image URL
      */
     toString(): string;
-    private _assemblePath;
     /**
      * Get the ID part of URL
      *
@@ -25,13 +24,13 @@ export default class {
     /**
      * Get the width part of URL
      *
-     * @returns {number} Image width (e.g. 160)
+     * @returns {number|null} Image width (e.g. 160)
      */
-    getWidth(): number;
+    getWidth(): number | null;
     /**
      * Set the image width (Used to get images of different sizes)
      *
-     * @param {number} width - Image width (e.g. 320)
+     * @param {number} width - Image width (e.g. 160)
      */
     setWidth(width: number): void;
     /**
