@@ -7,44 +7,51 @@
 ```JavaScript
 import PaapiItemImageUrlParser from '@saekitominaga/paapi-item-image-url-parser';
 
-const image160Url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
-const paapiItemImageUrlParser1 = new PaapiItemImageUrlParser(image160Url);
+const imageUrl = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
+const paapiItemImageUrlParser = new PaapiItemImageUrlParser(imageUrl);
 
-paapiItemImageUrlParser1.getId(); // '5198TOs+rnL'
-paapiItemImageUrlParser1.getWidth(); // 160
-paapiItemImageUrlParser1.getExtension(); // '.jpg'
-paapiItemImageUrlParser1.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg'
+paapiItemImageUrlParser.getId(); // '5198TOs+rnL'
+paapiItemImageUrlParser.getSize(); // 160
+paapiItemImageUrlParser.getExtension(); // '.jpg'
+paapiItemImageUrlParser.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg'
 
-paapiItemImageUrlParser1.setWidthMultiply(2);
-paapiItemImageUrlParser1.getWidth(); // 320
+paapiItemImageUrlParser.setSizeMultiply(2);
+paapiItemImageUrlParser.getSize(); // 320
 
-paapiItemImageUrlParser1.setWidthDivision(3);
-paapiItemImageUrlParser1.getWidth(); // 107
+paapiItemImageUrlParser.setSizeDivision(3);
+paapiItemImageUrlParser.getSize(); // 107
 
-paapiItemImageUrlParser1.setWidth(320);
-paapiItemImageUrlParser1.getWidth(); // 320
+paapiItemImageUrlParser.setSize(320);
+paapiItemImageUrlParser.getSize(); // 320
 
+paapiItemImageUrlParser.removeSize();
+paapiItemImageUrlParser.getSize(); // null
+paapiItemImageUrlParser.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL.jpg'
+```
 
-const imageOrigUrl = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
-const paapiItemImageUrlParser2 = new PaapiItemImageUrlParser(imageOrigUrl);
+```JavaScript
+import PaapiItemImageUrlParser from '@saekitominaga/paapi-item-image-url-parser';
 
-paapiItemImageUrlParser2.getId(); // '5198TOs+rnL'
-paapiItemImageUrlParser2.getWidth(); // null
-paapiItemImageUrlParser2.getExtension(); // '.jpg'
-paapiItemImageUrlParser2.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL.jpg'
+const imageUrl = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
+const paapiItemImageUrlParser = new PaapiItemImageUrlParser(imageUrl);
+
+paapiItemImageUrlParser.getId(); // '5198TOs+rnL'
+paapiItemImageUrlParser.getSize(); // null
+paapiItemImageUrlParser.getExtension(); // '.jpg'
+paapiItemImageUrlParser.toString(); // 'https://m.media-amazon.com/images/I/5198TOs+rnL.jpg'
 
 try {
-  paapiItemImageUrlParser2.setWidthMultiply(2); // Error
+  paapiItemImageUrlParser.setSizeMultiply(2); // Error
 } catch {
 }
 
 try {
-  paapiItemImageUrlParser2.setWidthDivision(3); // Error
+  paapiItemImageUrlParser.setSizeDivision(3); // Error
 } catch {
 }
 
-paapiItemImageUrlParser2.setWidth(320);
-paapiItemImageUrlParser2.getWidth(); // 320
+paapiItemImageUrlParser.setSize(320);
+paapiItemImageUrlParser.getSize(); // 320
 ```
 
 ## Constructor
@@ -67,14 +74,16 @@ new PaapiItemImageUrlParser(inputUrl: URL)
 <dd>Get the entire Image URL string.</dd>
 <dt>getId(): string</dt>
 <dd>Get the ID part of URL</dd>
-<dt>getWidth(): number | null</dt>
-<dd>Get the width part of URL</dd>
-<dt>setWidth(width: number): void</dt>
-<dd>Set the image width (Used to get images of different sizes)</dd>
-<dt>setWidthMultiply(multiply: number)</dt>
-<dd>Multiply the width of the image (Used to get images of different sizes)</dd>
-<dt>setWidthDivision(division: number)</dt>
-<dd>Division the width of the image (Used to get images of different sizes)</dd>
+<dt>getSize(): number | null</dt>
+<dd>Get the size part of URL</dd>
+<dt>setSize(size: number): void</dt>
+<dd>Set the image size (Used to get images of different sizes)</dd>
+<dt>removeSize(): void</dt>
+<dd>Remove the image size (Used to get the original size image)</dd>
+<dt>setSizeMultiply(multiply: number)</dt>
+<dd>Multiply the size of the image (Used to get images of different sizes)</dd>
+<dt>setSizeDivision(division: number)</dt>
+<dd>Division the size of the image (Used to get images of different sizes)</dd>
 <dt>getExtension(): string</dt>
 <dd>Get the extension part of URL</dd>
 </dl>

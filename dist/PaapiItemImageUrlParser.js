@@ -11,7 +11,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     }
     return privateMap.get(receiver);
 };
-var _url, _dir, _fileId, _fileWidth, _fileExtension;
+var _url, _dir, _fileId, _fileSize, _fileExtension;
 /**
  * PA-API Item Image URL Parser
  */
@@ -23,7 +23,7 @@ export default class {
         _url.set(this, void 0);
         _dir.set(this, void 0);
         _fileId.set(this, void 0);
-        _fileWidth.set(this, void 0);
+        _fileSize.set(this, void 0);
         _fileExtension.set(this, void 0);
         __classPrivateFieldSet(this, _url, inputUrl);
         const result = /(\/images\/[A-Z])\/([a-zA-Z0-9\-_+%]+)(\._SL([0-9]+)_)?(\.[a-zA-Z0-9]+)$/.exec(inputUrl.pathname);
@@ -32,7 +32,7 @@ export default class {
         }
         __classPrivateFieldSet(this, _dir, result[1]);
         __classPrivateFieldSet(this, _fileId, result[2]);
-        __classPrivateFieldSet(this, _fileWidth, result[4] !== undefined ? Number(result[4]) : null);
+        __classPrivateFieldSet(this, _fileSize, result[4] !== undefined ? Number(result[4]) : null);
         __classPrivateFieldSet(this, _fileExtension, result[5]);
     }
     /**
@@ -41,11 +41,11 @@ export default class {
      * @returns {string} Image URL
      */
     toString() {
-        if (__classPrivateFieldGet(this, _fileWidth) === null) {
+        if (__classPrivateFieldGet(this, _fileSize) === null) {
             __classPrivateFieldGet(this, _url).pathname = `${__classPrivateFieldGet(this, _dir)}/${__classPrivateFieldGet(this, _fileId)}${__classPrivateFieldGet(this, _fileExtension)}`;
         }
         else {
-            __classPrivateFieldGet(this, _url).pathname = `${__classPrivateFieldGet(this, _dir)}/${__classPrivateFieldGet(this, _fileId)}._SL${__classPrivateFieldGet(this, _fileWidth)}_${__classPrivateFieldGet(this, _fileExtension)}`;
+            __classPrivateFieldGet(this, _url).pathname = `${__classPrivateFieldGet(this, _dir)}/${__classPrivateFieldGet(this, _fileId)}._SL${__classPrivateFieldGet(this, _fileSize)}_${__classPrivateFieldGet(this, _fileExtension)}`;
         }
         return __classPrivateFieldGet(this, _url).toString();
     }
@@ -58,56 +58,62 @@ export default class {
         return __classPrivateFieldGet(this, _fileId);
     }
     /**
-     * Get the width part of URL
+     * Get the size part of URL
      *
-     * @returns {number|null} Image width (e.g. 160)
+     * @returns {number|null} Image size (e.g. 160)
      */
-    getWidth() {
-        return __classPrivateFieldGet(this, _fileWidth);
+    getSize() {
+        return __classPrivateFieldGet(this, _fileSize);
     }
     /**
-     * Set the image width (Used to get images of different sizes)
+     * Set the image size (Used to get images of different sizes)
      *
-     * @param {number} width - Image width (e.g. 160)
+     * @param {number} size - Image size (e.g. 160)
      */
-    setWidth(width) {
-        if (!Number.isInteger(width)) {
-            throw new TypeError('The image width must be specified as an integer.');
+    setSize(size) {
+        if (!Number.isInteger(size)) {
+            throw new TypeError('The image size must be specified as an integer.');
         }
-        if (width < 1) {
-            throw new RangeError('The image width must be a value greater than or equal to 1 (px).');
+        if (size < 1) {
+            throw new RangeError('The image size must be a value greater than or equal to 1 (px).');
         }
-        __classPrivateFieldSet(this, _fileWidth, width);
+        __classPrivateFieldSet(this, _fileSize, size);
     }
     /**
-     * Multiply the width of the image (Used to get images of different sizes)
-     *
-     * @param {number} multiply - Numerical value to multiply the image width
+     * Remove the image size (Used to get the original size image)
      */
-    setWidthMultiply(multiply) {
+    removeSize() {
+        __classPrivateFieldSet(this, _fileSize, null);
+    }
+    /**
+     * Multiply the size of the image (Used to get images of different sizes)
+     *
+     * @param {number} multiply - Numerical value to multiply the image size
+     */
+    setSizeMultiply(multiply) {
         if (multiply <= 0) {
             throw new RangeError('The value to be multiply must be greater than zero.');
         }
-        if (__classPrivateFieldGet(this, _fileWidth) === null) {
-            throw new Error('It is not possible to multiply the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
+        if (__classPrivateFieldGet(this, _fileSize) === null) {
+            throw new Error('It is not possible to multiply the size of an image whose size is not specified. Please execute the `setSize()` method before this.');
         }
-        const width = Math.round(__classPrivateFieldGet(this, _fileWidth) * multiply);
-        __classPrivateFieldSet(this, _fileWidth, width < 1 ? 1 : width);
+        const size = Math.round(__classPrivateFieldGet(this, _fileSize) * multiply);
+        __classPrivateFieldSet(this, _fileSize, size < 1 ? 1 : size);
     }
     /**
-     * Division the width of the image (Used to get images of different sizes)
+     * Division the size of the image (Used to get images of different sizes)
      *
-     * @param {number} division - Numerical value to division the image width
+     * @param {number} division - Numerical value to division the image size
      */
-    setWidthDivision(division) {
+    setSizeDivision(division) {
         if (division <= 0) {
             throw new RangeError('The value to be division must be greater than zero.');
         }
-        if (__classPrivateFieldGet(this, _fileWidth) === null) {
-            throw new Error('It is not possible to division the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
+        if (__classPrivateFieldGet(this, _fileSize) === null) {
+            throw new Error('It is not possible to division the size of an image whose size is not specified. Please execute the `setSize()` method before this.');
         }
-        const width = Math.round(__classPrivateFieldGet(this, _fileWidth) / division);
-        __classPrivateFieldSet(this, _fileWidth, width < 1 ? 1 : width);
+        const size = Math.round(__classPrivateFieldGet(this, _fileSize) / division);
+        __classPrivateFieldSet(this, _fileSize, size < 1 ? 1 : size);
     }
     /**
      * Get the extension part of URL
@@ -118,5 +124,5 @@ export default class {
         return __classPrivateFieldGet(this, _fileExtension);
     }
 }
-_url = new WeakMap(), _dir = new WeakMap(), _fileId = new WeakMap(), _fileWidth = new WeakMap(), _fileExtension = new WeakMap();
+_url = new WeakMap(), _dir = new WeakMap(), _fileId = new WeakMap(), _fileSize = new WeakMap(), _fileExtension = new WeakMap();
 //# sourceMappingURL=PaapiItemImageUrlParser.js.map

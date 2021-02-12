@@ -22,29 +22,33 @@ export default class {
      */
     getId(): string;
     /**
-     * Get the width part of URL
+     * Get the size part of URL
      *
-     * @returns {number|null} Image width (e.g. 160)
+     * @returns {number|null} Image size (e.g. 160)
      */
-    getWidth(): number | null;
+    getSize(): number | null;
     /**
-     * Set the image width (Used to get images of different sizes)
+     * Set the image size (Used to get images of different sizes)
      *
-     * @param {number} width - Image width (e.g. 160)
+     * @param {number} size - Image size (e.g. 160)
      */
-    setWidth(width: number): void;
+    setSize(size: number): void;
     /**
-     * Multiply the width of the image (Used to get images of different sizes)
-     *
-     * @param {number} multiply - Numerical value to multiply the image width
+     * Remove the image size (Used to get the original size image)
      */
-    setWidthMultiply(multiply: number): void;
+    removeSize(): void;
     /**
-     * Division the width of the image (Used to get images of different sizes)
+     * Multiply the size of the image (Used to get images of different sizes)
      *
-     * @param {number} division - Numerical value to division the image width
+     * @param {number} multiply - Numerical value to multiply the image size
      */
-    setWidthDivision(division: number): void;
+    setSizeMultiply(multiply: number): void;
+    /**
+     * Division the size of the image (Used to get images of different sizes)
+     *
+     * @param {number} division - Numerical value to division the image size
+     */
+    setSizeDivision(division: number): void;
     /**
      * Get the extension part of URL
      *

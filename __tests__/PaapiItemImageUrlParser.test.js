@@ -8,8 +8,8 @@ describe('オリジナルサイズ', () => {
 	test('id', () => {
 		expect(paapiItemImageUrlParser.getId()).toBe('5198TOs+rnL');
 	});
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBeNull();
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBeNull();
 	});
 	test('extension', () => {
 		expect(paapiItemImageUrlParser.getExtension()).toBe('.jpg');
@@ -23,10 +23,10 @@ describe('オリジナルサイズ URL の幅を変更（直接指定）', () =>
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
-	paapiItemImageUrlParser.setWidth(500);
+	paapiItemImageUrlParser.setSize(500);
 
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBe(500);
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBe(500);
 	});
 	test('URL', () => {
 		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL._SL500_.jpg');
@@ -39,13 +39,13 @@ describe('オリジナルサイズ URL の幅を変更（乗算指定）', () =>
 
 	test('幅指定前に乗算', () => {
 		expect(() => {
-			paapiItemImageUrlParser.setWidthMultiply(2);
-		}).toThrow('It is not possible to multiply the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
+			paapiItemImageUrlParser.setSizeMultiply(2);
+		}).toThrow('It is not possible to multiply the size of an image whose size is not specified. Please execute the `setSize()` method before this.');
 	});
 	test('幅指定前に除算', () => {
 		expect(() => {
-			paapiItemImageUrlParser.setWidthDivision(2);
-		}).toThrow('It is not possible to division the width of an image whose size is not specified. Please execute the `setWidth()` method before this.');
+			paapiItemImageUrlParser.setSizeDivision(2);
+		}).toThrow('It is not possible to division the size of an image whose size is not specified. Please execute the `setSize()` method before this.');
 	});
 });
 
@@ -56,8 +56,8 @@ describe('幅指定 URL', () => {
 	test('id', () => {
 		expect(paapiItemImageUrlParser.getId()).toBe('5198TOs+rnL');
 	});
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBe(160);
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBe(160);
 	});
 	test('extension', () => {
 		expect(paapiItemImageUrlParser.getExtension()).toBe('.jpg');
@@ -71,10 +71,10 @@ describe('幅指定 URL の幅を変更（直接指定）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
-	paapiItemImageUrlParser.setWidth(500);
+	paapiItemImageUrlParser.setSize(500);
 
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBe(500);
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBe(500);
 	});
 	test('URL', () => {
 		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL._SL500_.jpg');
@@ -85,10 +85,10 @@ describe('幅指定 URL の幅を変更（乗算指定）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
-	paapiItemImageUrlParser.setWidthMultiply(2);
+	paapiItemImageUrlParser.setSizeMultiply(2);
 
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBe(320);
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBe(320);
 	});
 	test('URL', () => {
 		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL._SL320_.jpg');
@@ -99,10 +99,10 @@ describe('幅指定 URL の幅を変更（乗算指定・普通に計算する�
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
-	paapiItemImageUrlParser.setWidthMultiply(0.001);
+	paapiItemImageUrlParser.setSizeMultiply(0.001);
 
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBe(1);
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBe(1);
 	});
 	test('URL', () => {
 		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL._SL1_.jpg');
@@ -113,10 +113,10 @@ describe('幅指定 URL の幅を変更（除算指定）', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
-	paapiItemImageUrlParser.setWidthDivision(2);
+	paapiItemImageUrlParser.setSizeDivision(2);
 
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBe(80);
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBe(80);
 	});
 	test('URL', () => {
 		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL._SL80_.jpg');
@@ -127,13 +127,27 @@ describe('幅指定 URL の幅を変更（除算指定・普通に計算する�
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
 
-	paapiItemImageUrlParser.setWidthDivision(500);
+	paapiItemImageUrlParser.setSizeDivision(500);
 
-	test('width', () => {
-		expect(paapiItemImageUrlParser.getWidth()).toBe(1);
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBe(1);
 	});
 	test('URL', () => {
 		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL._SL1_.jpg');
+	});
+});
+
+describe('幅指定 URL の幅を削除', () => {
+	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
+	const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
+
+	paapiItemImageUrlParser.removeSize();
+
+	test('size', () => {
+		expect(paapiItemImageUrlParser.getSize()).toBeNull();
+	});
+	test('URL', () => {
+		expect(paapiItemImageUrlParser.toString()).toBe('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
 	});
 });
 
@@ -163,23 +177,23 @@ describe('invalid', () => {
 		expect(() => {
 			const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 			const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
-			paapiItemImageUrlParser.setWidth(0);
-		}).toThrow('The image width must be a value greater than or equal to 1 (px).');
+			paapiItemImageUrlParser.setSize(0);
+		}).toThrow('The image size must be a value greater than or equal to 1 (px).');
 	});
 
 	test('画像幅の直接指定で小数を指定', () => {
 		expect(() => {
 			const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 			const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
-			paapiItemImageUrlParser.setWidth(2.5);
-		}).toThrow('The image width must be specified as an integer.');
+			paapiItemImageUrlParser.setSize(2.5);
+		}).toThrow('The image size must be specified as an integer.');
 	});
 
 	test('画像幅の乗算で 0 を指定', () => {
 		expect(() => {
 			const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 			const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
-			paapiItemImageUrlParser.setWidthMultiply(0);
+			paapiItemImageUrlParser.setSizeMultiply(0);
 		}).toThrow('The value to be multiply must be greater than zero.');
 	});
 
@@ -187,7 +201,7 @@ describe('invalid', () => {
 		expect(() => {
 			const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL._SL160_.jpg');
 			const paapiItemImageUrlParser = new PaapiItemImageUrlParser(url);
-			paapiItemImageUrlParser.setWidthDivision(0);
+			paapiItemImageUrlParser.setSizeDivision(0);
 		}).toThrow('The value to be division must be greater than zero.');
 	});
 });
