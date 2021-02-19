@@ -72,7 +72,7 @@ new PaapiItemImageUrlParser(inputUrl: URL)
 ## Methods
 
 <dl>
-<dt>toString()</dt>
+<dt>toString(): string</dt>
 <dd>Get the entire Image URL string.</dd>
 <dt>getId(): string</dt>
 <dd>Get the ID part of URL</dd>
