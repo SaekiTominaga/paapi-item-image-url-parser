@@ -1,6 +1,6 @@
 {
 	"name": "@saekitominaga/paapi-item-image-url-parser",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"description": "PA-API 5.0 Item Image URL Parser.",
 	"keywords": [
 		"paapi",
