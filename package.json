@@ -1,7 +1,11 @@
 {
 	"name": "@saekitominaga/paapi-item-image-url-parser",
 	"version": "2.1.0",
-	"description": "PA-API Item Image URL Parser.",
+	"description": "PA-API 5.0 Item Image URL Parser.",
+	"keywords": [
+		"paapi",
+		"paapi5"
+	],
 	"homepage": "https://github.com/SaekiTominaga/paapi-item-image-url-parser#readme",
 	"bugs": {
 		"url": "https://github.com/SaekiTominaga/paapi-item-image-url-parser/issues"
