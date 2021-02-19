@@ -1,6 +1,8 @@
 # PA-API Item Image URL Parser
 
 [![npm version](https://badge.fury.io/js/%40saekitominaga%2Fpaapi-item-image-url-parser.svg)](https://badge.fury.io/js/%40saekitominaga%2Fpaapi-item-image-url-parser)
+[![Build Status](https://www.travis-ci.com/SaekiTominaga/paapi-item-image-url-parser.svg)](https://www.travis-ci.com/SaekiTominaga/paapi-item-image-url-parser)
+[![Coverage Status](https://coveralls.io/repos/github/SaekiTominaga/paapi-item-image-url-parser/badge.svg)](https://coveralls.io/github/SaekiTominaga/paapi-item-image-url-parser)
 
 ## Examples
 
