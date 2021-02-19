@@ -1,5 +1,5 @@
 import { URL } from 'url';
-import PaapiItemImageUrlParser from '../dist/PaapiItemImageUrlParser.js';
+import PaapiItemImageUrlParser from '../src/PaapiItemImageUrlParser';
 
 describe('オリジナルサイズ', () => {
 	const url = new URL('https://m.media-amazon.com/images/I/5198TOs+rnL.jpg');
